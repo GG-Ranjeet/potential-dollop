@@ -1,6 +1,7 @@
 import express, { type Express, type Request, type Response } from "express";
 import statusRoutes from "../routes/statusRoutes.ts";
 import patientRoutes from "../routes/patientRoutes.ts";
+import { globalErrorHandler } from "../middleware/GlobalErrorHandler.ts";
 
 const app: Express = express();
 app.use(express.json());
@@ -15,6 +16,8 @@ app.use((req, res) => {
         message: `Can't find ${req.originalUrl} on this server!`,
     });
 });
+
+app.use(globalErrorHandler);
 
 // Default
 app.get("/", (req: Request, res: Response) => {

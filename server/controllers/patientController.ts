@@ -77,14 +77,16 @@ export const newPatient = async (req: CustomRequest, res: Response): Promise<voi
 };
 
 /**
- * @desc 
- * @route POST
- * @access 
+ * @desc Update User by id
+ * @route PUT
+ * @access self
  */
-export const updateUser = async (req: CustomRequest, res: Response): Promise<void> => {
+export const updatePatient = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
-        const userId = req.user?.id;
+        console.log('Update patient request body:', req.params, req.body);
+        const { id: userId } = req.params;
         const { name } = req.body;
+
 
         if (!name) {
             res.status(400).json({ success: false, message: 'Name field is required' });
