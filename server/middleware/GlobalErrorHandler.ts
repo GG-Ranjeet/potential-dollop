@@ -36,6 +36,6 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
         success: false,
         message: message,
         ...(err.path && { path: err.path }),
-        // stack: process.env.NODE_ENV === 'production' ? null : err.stack
+        stack: process.env.NODE_ENV === 'production' ? null : err.stack
     });
 }
