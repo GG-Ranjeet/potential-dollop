@@ -1,0 +1,9 @@
+
+POST http://localhost:5000/api/patient/
+Content-Type: application/json
+
+{
+    "name": "Jane Doe",
+    "password": "janedoo",
+    "email": "jane.doo@example.com"
+}
