@@ -3,8 +3,4 @@ server/node_modules
 **/*.env
 node_modules
 http
-client/
-client/src/App.css
-client/src/App.tsx
-client/src/index.css
 # .gitignore
