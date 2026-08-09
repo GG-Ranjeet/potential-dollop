@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Selector from "../../component/utils/Selector";
-import Checkbox from "../../component/utils/Checkbox";
+import Selector from "../component/utils/Selector";
+import Checkbox from "../component/utils/Checkbox";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");

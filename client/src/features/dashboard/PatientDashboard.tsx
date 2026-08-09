@@ -1,6 +1,6 @@
-import SidePanel from "./subComponent/SidePanel";
-import NavBar from "./subComponent/NavBar";
-import Body from "./subComponent/Body";
+import SidePanel from "../component/subComponent/SidePanel";
+import NavBar from "../component/subComponent/NavBar";
+// import Body from "../component/subComponent/Body";
 import { Outlet } from "react-router";
 
 const PatientDashboard = () => {
