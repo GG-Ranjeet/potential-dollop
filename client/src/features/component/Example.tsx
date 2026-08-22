@@ -4,7 +4,7 @@ import axios from "axios";
 function Example(_props : any){
     const [message, setMessage] = useState("here");
     useEffect(() => {
-        axios.get("/api/health")
+        axios.get("/api/status")
             .then((res) => setMessage(res.data.message))
             .catch(() => setMessage("Error with backend"))
     }, []);
