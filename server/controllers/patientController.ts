@@ -1,7 +1,7 @@
 import { type Request, type Response } from 'express';
 import mongoose from 'mongoose';
 import Patient from '../models/Patients.ts';
-import type { CustomRequest } from '../customInterfaces.ts';
+import type { CustomRequest, IJWTPayload } from '../customInterfaces.ts';
 import jwt from 'jsonwebtoken';
 
 interface IPatientParams {
@@ -64,8 +64,8 @@ export const newPatient = async (req: CustomRequest, res: Response): Promise<voi
         }
         
         const newPatient = await Patient.create({ name, password, email, role });
-        const payload = {
-            userId: newPatient._id,
+        const payload : IJWTPayload = {
+            userId: newPatient._id.toString(),
             userName: newPatient.name,
             email: newPatient.email,
             role: newPatient.role,
