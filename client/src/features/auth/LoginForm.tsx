@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Selector from "../component/utils/Selector";
 import Checkbox from "../component/utils/Checkbox";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [selectedRole, setSelectedRole] = useState<number>(1);
+    const navigate = useNavigate();
 
     const roles = [
         { id: 1, name: "Patient" },
@@ -22,7 +24,7 @@ const LoginForm = () => {
     const handleRoleChange = (roleId: number) => {
         setSelectedRole(roleId);
     }
-    const handleLoginForm = (e: React.BaseSyntheticEvent<SubmitEvent, HTMLFormElement, HTMLFormElement>) => {
+    const handleLoginForm = async (e: React.BaseSyntheticEvent<SubmitEvent, HTMLFormElement, HTMLFormElement>) => {
         e.preventDefault();
         
         const form = e.target;
@@ -34,7 +36,7 @@ const LoginForm = () => {
         console.log("Form submitted with values:", { role, email, password });
         
         try{
-            const response = fetch("/api/login", {
+            const response = await fetch("/api/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,6 +44,21 @@ const LoginForm = () => {
                 body: JSON.stringify({ role, email, password }),
             });
             console.log("Response:", response);
+            if (response.ok){
+                const data = await response.json();
+                console.log("Login successful:", data);
+                localStorage.setItem('token', data.token);
+                navigate('/dashboard');
+            }
+            else {
+                const result = await response.json();
+                console.error("Login failed:", result.message);
+                if (result.message) {
+                    alert(`Login failed: ${result.message}`);
+                } else {
+                    alert("Login failed. Please check your details and try again.");
+                }
+            }
         } catch (error) {
             console.error("Error during login:", error);
         }

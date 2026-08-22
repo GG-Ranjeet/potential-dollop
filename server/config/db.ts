@@ -10,9 +10,11 @@ export const connectDB = async (): Promise<void> => {
 
         const conn = await mongoose.connect(mongoUri);
 
-        console.log(`🍃 MongoDB Connected Successfully: ${conn.connection.host}`);
+        console.log(`🍃 MongoDB Connected Successfully: mongodb://${conn.connection.host}:${conn.connection.port}`);
     } catch(error){
         console.error('❌ Database connection failed:', error);
+        // fix:
+        // net start MongoDB
         process.exit(1);
     }
 }
