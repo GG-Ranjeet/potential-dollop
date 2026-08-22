@@ -3,6 +3,7 @@ import statusRoutes from "../routes/statusRoutes.ts";
 import patientRoutes from "../routes/patientRoutes.ts";
 import { globalErrorHandler } from "../middleware/GlobalErrorHandler.ts";
 import loginRoutes from "../routes/loginRoute.ts";
+import signupRoutes from "../routes/signupRoute.ts";
 
 const app: Express = express();
 app.use(express.json());
@@ -11,6 +12,7 @@ app.use(express.json());
 app.use("/api/status", statusRoutes);
 app.use("/api/patient", patientRoutes);
 app.use("/api/login", loginRoutes); 
+app.use("/api/signup", signupRoutes); 
 
 app.use((req, res) => {
     res.status(404).json({

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import Patient from '../models/Patients.ts';
 import type { CustomRequest } from '../customInterfaces.ts';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
 
 export const loginController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -27,7 +27,21 @@ export const loginController = async (req: Request, res: Response): Promise<void
             return;
         }
 
-        res.status(200).json({ success: true, message: 'Login successful', patient });
+        const payload = {
+                    userId: patient._id,
+                    userName: patient.name,
+                    email: patient.email,
+                    role: patient.role,
+                };
+                const secret = process.env.JWT_SECRET;
+                if (!secret) {
+                    throw new Error("JWT_SECRET is not defined in environment variables");
+                }
+                const token = jwt.sign(payload, secret, {
+                    expiresIn: '24h' 
+                });
+
+        res.status(200).json({ success: true, message: 'Login successful', patient: payload, token: token });
 
     }catch (error) {
         console.error('Error in loginController:', error);

@@ -2,6 +2,7 @@ import { type Request, type Response } from 'express';
 import mongoose from 'mongoose';
 import Patient from '../models/Patients.ts';
 import type { CustomRequest } from '../customInterfaces.ts';
+import jwt from 'jsonwebtoken';
 
 interface IPatientParams {
     id?: string;
@@ -49,23 +50,38 @@ export const getPatient = async (req: Request<IPatientParams>, res: Response): P
  */
 export const newPatient = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
-        const { name, password, email } = req.body;
+        const { name, password, email, role } = req.body;
 
-        if (!name || !password || !email) {
+        if (!name || !password || !email || (role && role !== "patient")) {
             res.status(400).json({ success: false, message: 'Name, password and email fields are required' });
             return;
         }
 
         const existingUser = await Patient.findOne({ email });
         if (existingUser) {
-            res.status(400).json({ success: false, message: 'User with this email already exists' });
+            res.status(400).json({ success: false, message: 'User with this email already exists. Try login' });
             return;
         }
-        const newPatient = await Patient.create({ name, password, email });
+        
+        const newPatient = await Patient.create({ name, password, email, role });
+        const payload = {
+            userId: newPatient._id,
+            userName: newPatient.name,
+            email: newPatient.email,
+            role: newPatient.role,
+        };
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+            throw new Error("JWT_SECRET is not defined in environment variables");
+        }
+        const token = jwt.sign(payload, secret, {
+            expiresIn: '24h' 
+        });
         res.status(201).json({
             success: true,
             message: 'New patient created successfully',
-            patient: newPatient
+            patient: payload,
+            token: token
         });
 
     } catch (error) {
