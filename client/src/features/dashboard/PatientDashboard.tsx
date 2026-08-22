@@ -24,16 +24,17 @@ const PatientDashboard: React.FC = () => {
                     navigate('/login');
                     return;
                 }
-                const response = await fetch('api/dashboard', {
+                const response = await fetch('api/dashboard/', {
                     method: "GET",
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': "application/json"
                     }
                 })
-                const data = await response.json();
+                
                 if (response.ok) {
-                    setUser(data);
+                    const data = await response.json();
+                    setUser(data.user);
                 }
                 else {
                     localStorage.removeItem('token');
