@@ -2,7 +2,7 @@ import { UserDocument } from '../models/Users'; // Import your Mongoose User typ
 
 declare global {
   namespace Express {
-    interface Request {
+    interface Request extends Express.Request {
       user?: any; // Or use UserDocument / your custom User payload type
     }
   }
