@@ -17,6 +17,7 @@ services:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://database:27017/mydatabase
+      - JWT_SECRET=your-super-secret-key-123;
     volumes:
       - ./server:/app
       - /app/node_modules 
