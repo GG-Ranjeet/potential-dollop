@@ -6,6 +6,7 @@ import loginRoutes from "../routes/loginRoute.ts";
 import signupRoutes from "../routes/signupRoute.ts";
 import dashboardRoute from "../routes/dashboardRoute.ts"; // Import the dashboard route
 import { authenticateToken } from "../middleware/auth/AuthenticateToken.ts";
+import aiRecommenderRoute from "../routes/aiRecommenderRoute.ts";
 
 const app: Express = express();
 app.use(express.json());
@@ -15,7 +16,8 @@ app.use("/api/status", statusRoutes);
 app.use("/api/patient", patientRoutes);
 app.use("/api/login", loginRoutes); 
 app.use("/api/signup", signupRoutes); 
-app.use("/api/dashboard", authenticateToken, dashboardRoute); // Add this line to include the dashboard route
+app.use("/api/chat", aiRecommenderRoute);
+app.use("/api/dashboard", authenticateToken, dashboardRoute); 
 
 app.use((req, res) => {
     res.status(404).json({
